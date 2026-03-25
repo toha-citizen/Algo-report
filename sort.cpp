@@ -3,7 +3,7 @@
 using namespace std;
 using namespace chrono;
 
-// 🔹 Insertion Sort
+// Insertion Sort
 void insertionSort(vector<int>& arr) {
     int n = arr.size();
     for(int i = 1; i < n; i++) {
@@ -17,7 +17,7 @@ void insertionSort(vector<int>& arr) {
     }
 }
 
-// 🔹 Merge Sort
+// Merge Sort
 void merge(vector<int>& arr, int l, int m, int r) {
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -46,7 +46,7 @@ void mergeSort(vector<int>& arr, int l, int r) {
     merge(arr, l, m, r);
 }
 
-// 🔹 Quick Sort
+// Quick Sort
 int partition(vector<int>& arr, int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
@@ -69,7 +69,7 @@ void quickSort(vector<int>& arr, int low, int high) {
     }
 }
 
-// 🔹 Random array generator
+// Random array generator
 vector<int> generateRandom(int n) {
     vector<int> arr(n);
     for(int i = 0; i < n; i++) {
@@ -78,7 +78,7 @@ vector<int> generateRandom(int n) {
     return arr;
 }
 
-// 🔹 Main function
+// Main function
 int main() {
     srand(time(0));
 
@@ -105,7 +105,7 @@ int main() {
              << "\nAlgorithm: Insertion Sort"
              << "\nExecution Time: " << time1.count() << " microseconds\n";
 
-        // 🔸 Merge Sort
+        // Merge Sort
         vector<int> arr2 = original;
         auto start2 = high_resolution_clock::now();
         mergeSort(arr2, 0, n - 1);
@@ -117,7 +117,7 @@ int main() {
              << "\nAlgorithm: Merge Sort"
              << "\nExecution Time: " << time2.count() << " microseconds\n";
 
-        // 🔸 Quick Sort
+        // Quick Sort
         vector<int> arr3 = original;
         auto start3 = high_resolution_clock::now();
         quickSort(arr3, 0, n - 1);
