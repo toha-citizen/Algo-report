@@ -3,17 +3,13 @@
 using namespace std;
 using namespace chrono;
 
-// ======================= Insertion Sort =======================
-void insertionSort(vector<int> &arr)
-{
+// 🔹 Insertion Sort
+void insertionSort(vector<int>& arr) {
     int n = arr.size();
-    for (int i = 1; i < n; i++)
-    {
+    for(int i = 1; i < n; i++) {
         int key = arr[i];
         int j = i - 1;
-
-        while (j >= 0 && arr[j] > key)
-        {
+        while(j >= 0 && arr[j] > key) {
             arr[j + 1] = arr[j];
             j--;
         }
@@ -21,49 +17,42 @@ void insertionSort(vector<int> &arr)
     }
 }
 
-// ======================= Merge Sort =======================
-void merge(vector<int> &arr, int left, int mid, int right)
-{
-    vector<int> L(arr.begin() + left, arr.begin() + mid + 1);
-    vector<int> R(arr.begin() + mid + 1, arr.begin() + right + 1);
+// 🔹 Merge Sort
+void merge(vector<int>& arr, int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
-    int i = 0, j = 0, k = left;
+    vector<int> L(n1), R(n2);
 
-    while (i < L.size() && j < R.size())
-    {
-        if (L[i] <= R[j])
-            arr[k++] = L[i++];
-        else
-            arr[k++] = R[j++];
+    for(int i = 0; i < n1; i++) L[i] = arr[l + i];
+    for(int i = 0; i < n2; i++) R[i] = arr[m + 1 + i];
+
+    int i = 0, j = 0, k = l;
+
+    while(i < n1 && j < n2) {
+        if(L[i] <= R[j]) arr[k++] = L[i++];
+        else arr[k++] = R[j++];
     }
 
-    while (i < L.size())
-        arr[k++] = L[i++];
-    while (j < R.size())
-        arr[k++] = R[j++];
+    while(i < n1) arr[k++] = L[i++];
+    while(j < n2) arr[k++] = R[j++];
 }
 
-void mergeSort(vector<int> &arr, int left, int right)
-{
-    if (left >= right)
-        return;
-
-    int mid = left + (right - left) / 2;
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-    merge(arr, left, mid, right);
+void mergeSort(vector<int>& arr, int l, int r) {
+    if(l >= r) return;
+    int m = l + (r - l) / 2;
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+    merge(arr, l, m, r);
 }
 
-// ======================= Quick Sort =======================
-int partitionFunc(vector<int> &arr, int low, int high)
-{
+// 🔹 Quick Sort
+int partition(vector<int>& arr, int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
 
-    for (int j = low; j < high; j++)
-    {
-        if (arr[j] < pivot)
-        {
+    for(int j = low; j < high; j++) {
+        if(arr[j] < pivot) {
             i++;
             swap(arr[i], arr[j]);
         }
@@ -72,76 +61,73 @@ int partitionFunc(vector<int> &arr, int low, int high)
     return i + 1;
 }
 
-void quickSort(vector<int> &arr, int low, int high)
-{
-    if (low < high)
-    {
-        int pivotIndex = partitionFunc(arr, low, high);
-        quickSort(arr, low, pivotIndex - 1);
-        quickSort(arr, pivotIndex + 1, high);
+void quickSort(vector<int>& arr, int low, int high) {
+    if(low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
     }
 }
 
-// ======================= Utility Function =======================
-vector<int> generateRandomArray(int n)
-{
+// 🔹 Random array generator
+vector<int> generateRandom(int n) {
     vector<int> arr(n);
-    for (int i = 0; i < n; i++)
-    {
+    for(int i = 0; i < n; i++) {
         arr[i] = rand() % 100000;
     }
     return arr;
 }
 
-void printResult(string name, string id, string algo, int n, long long time)
-{
-    cout << "Name: " << name << endl;
-    cout << "ID: " << id << endl;
-    cout << "Algorithm: " << algo << endl;
-    cout << "Input Size: " << n << endl;
-    cout << "Execution Time: " << time << " microseconds" << endl;
-    cout << "-----------------------------\n";
-}
-
-// ======================= Main Function =======================
-int main()
-{
+// 🔹 Main function
+int main() {
     srand(time(0));
-
-    string name = "Tanjimul Hasan Toha";
-    string id = "C243016";
 
     vector<int> sizes = {10, 100, 1000, 10000, 100000};
 
-    for (int n : sizes)
-    {
-        cout << "\n========== Input Size: " << n << " ==========\n";
+    string name = "Tanjimul Hassan Toha";
+    string id = "C243016";
 
-        vector<int> original = generateRandomArray(n);
+    for(int n : sizes) {
+        cout << "\n=============================\n";
+        cout << "Input Size: " << n << endl;
 
-        // -------- Insertion Sort --------
+        vector<int> original = generateRandom(n);
+
+        // 🔸 Insertion Sort
         vector<int> arr1 = original;
-        auto start = high_resolution_clock::now();
+        auto start1 = high_resolution_clock::now();
         insertionSort(arr1);
-        auto end = high_resolution_clock::now();
-        auto duration = duration_cast<microseconds>(end - start);
-        printResult(name, id, "Insertion Sort", n, duration.count());
+        auto end1 = high_resolution_clock::now();
+        auto time1 = duration_cast<microseconds>(end1 - start1);
 
-        // -------- Merge Sort --------
+        cout << "\nName: " << name
+             << "\nID: " << id
+             << "\nAlgorithm: Insertion Sort"
+             << "\nExecution Time: " << time1.count() << " microseconds\n";
+
+        // 🔸 Merge Sort
         vector<int> arr2 = original;
-        start = high_resolution_clock::now();
+        auto start2 = high_resolution_clock::now();
         mergeSort(arr2, 0, n - 1);
-        end = high_resolution_clock::now();
-        duration = duration_cast<microseconds>(end - start);
-        printResult(name, id, "Merge Sort", n, duration.count());
+        auto end2 = high_resolution_clock::now();
+        auto time2 = duration_cast<microseconds>(end2 - start2);
 
-        // -------- Quick Sort --------
+        cout << "\nName: " << name
+             << "\nID: " << id
+             << "\nAlgorithm: Merge Sort"
+             << "\nExecution Time: " << time2.count() << " microseconds\n";
+
+        // 🔸 Quick Sort
         vector<int> arr3 = original;
-        start = high_resolution_clock::now();
+        auto start3 = high_resolution_clock::now();
         quickSort(arr3, 0, n - 1);
-        end = high_resolution_clock::now();
-        duration = duration_cast<microseconds>(end - start);
-        printResult(name, id, "Quick Sort", n, duration.count());
+        auto end3 = high_resolution_clock::now();
+        auto time3 = duration_cast<microseconds>(end3 - start3);
+
+        cout << "\nName: " << name
+             << "\nID: " << id
+             << "\nAlgorithm: Quick Sort"
+             << "\nExecution Time: " << time3.count() << " microseconds\n";
     }
 
     return 0;
